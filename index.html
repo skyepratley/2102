@@ -15,7 +15,7 @@
 <link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
 
 
-  <title>CodePen - 2101</title>
+  <title>CodePen - 2102</title>
   
   
   
@@ -63,7 +63,6 @@
   
       <script id="rendered-js" >
 console.clear();
-console.log("hello world");
 
 const students = [];
 
@@ -73,36 +72,17 @@ function makeStudent(username,first,last,gradelevel){
   student.first = first;
   student.last = last;
   student.gradelevel = gradelevel;
+  student.clickcount=0;
   return student;
 }
 
 students.push(makeStudent("roryleonard","Rory","Leonard","9"));
 students.push(makeStudent("williamgross","William","Gross","10"))
-students.push(makeStudent("lucialopez","Lucia","Lopez","9"))
-students.push(makeStudent("rocketdavis","Rocket","Davis","9"))
-students.push(makeStudent("keeganatchison","Keegan","Atchison","11"))
-students.push(makeStudent("shaymaseckschick","Shay","Meseck-Schick","10"))
-students.push(makeStudent("zoebishop","Zoe","Bishop","11"))
-students.push(makeStudent("gunnisonsweeney","Gunnison","Sweeney","9"))
-students.push(makeStudent("sophiasantosufkes","Sophia","Santos-Ufkes","12"))
-students.push(makeStudent("henryroseman","Henry","Roseman","11"))
-students.push(makeStudent("colehansen","Cole","Hansen","9"))
-students.push(makeStudent("vinayvenkatesh","Vinay","Venkatesh","9"))
-students.push(makeStudent("skyepratley","Skye","Pratley","9"))
-students.push(makeStudent("nicholascofinas","Nicholas","Cofinas","9"))
-students.push(makeStudent("alexolsen","Alex","Olsen","9"))
-students.push(makeStudent("arnoldtian","Arnold","Tian","9"))
-students.push(makeStudent("samjennings","Sam","Jennings","10"))
-students.push(makeStudent("elliottekortus","Elliotte","Kortus","10"))
-students.push(makeStudent("rashidharoun","Rashid","Haroun","11"))
-students.push(makeStudent("maximoavalone","Maximo","Avalone","9"))
-console.log(students);
+
 
 function pickStudent(){
   let randomStudentNum = Math.floor(Math.random()*students.length);
-  console.log(randomStudentNum);
   let student = students[randomStudentNum];
-  console.log(student);
   document.getElementById("picked").textContent = student.first + " " + student.last;
 }
 
@@ -110,7 +90,38 @@ pickStudent();
 
 let element = document.getElementById("pickStudent");
 
-element.addEventListener("click",pickStudent);
+element.addEventListener("click", pickStudent);
+
+function renderList() {
+  console.log("renderList");
+  students.sort(function (a, b) {
+    return a.clickcount - b.clickcount;
+  });
+  let content = "";
+
+  for (let i = 0; i < students.length; i++) {
+    content += `<div class="student" id="${students[i].username}"> ${students[i].first} ${students[i].last} ${students[i].clickcount}</div>\n`;
+  }
+
+  let element = document.getElementById("container");
+  element.innerHTML = content;
+}
+
+function listclick(e) {
+  console.log(e.target.id);
+
+  for (let i = 0; i < students.length; i++) {
+    if (students[i].username == e.target.id) {
+      students[i].clickcount++;
+    }
+  }
+
+  renderList();
+}
+
+let renderclick = document.getElementById("container");
+renderclick.addEventListener("click", listclick);
+renderList();
     </script>
 
   
@@ -119,3 +130,4 @@ element.addEventListener("click",pickStudent);
 
 </html>
  
+
